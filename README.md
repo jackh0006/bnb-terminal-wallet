@@ -28,21 +28,35 @@ The RPC receives public reads and signed transaction broadcasts, never mnemonics
 
 ## Quick Start
 
+### One-command install
+
+Linux/macOS/WSL with Node.js 20+:
+
 ```bash
-git clone <repo-url>
-cd <repo-name>
-npm install
-npm run dev
+git clone https://github.com/jackh0006/bnb-terminal-wallet.git && cd bnb-terminal-wallet && bash install.sh && npm start
 ```
 
-This terminal project currently maps the development command to `npm start`; use:
+`install.sh` checks the Node.js version, installs locked dependencies, and creates a private local `.env` from `.env.example` when needed. It never creates, imports, or uploads a wallet.
+
+### Manual install
 
 ```bash
+git clone https://github.com/jackh0006/bnb-terminal-wallet.git
+cd bnb-terminal-wallet
+npm ci
 cp .env.example .env
 npm start
 ```
 
-Or run `bash install.sh` (Node.js 20+). Fill in only optional values in `.env`; it is ignored by Git. `BSCSCAN_API_KEY` enables history. `BNB_RPC_URL` chooses a session RPC. Custom RPCs must use HTTPS and report the selected BSC chain ID.
+`npm run dev` is an alias for `npm start`. Fill in only optional values in `.env`; it is ignored by Git. `BSCSCAN_API_KEY` enables history. `BNB_RPC_URL` chooses a session RPC. Custom RPCs must use HTTPS and report the selected BSC chain ID.
+
+### Updating
+
+```bash
+git pull --ff-only
+npm ci
+npm start
+```
 
 ## Safe operation
 
@@ -57,7 +71,9 @@ npm run verify
 npm run audit
 ```
 
-CI runs syntax checking and unit tests on Node 20 and 22. Dependabot checks npm dependencies weekly. Before release: review `git diff`, run verification/audit, test create/import/balances and a testnet transfer manually, confirm no secret files are staged, and validate configured token addresses against authoritative sources.
+CI runs syntax checking and unit tests on Node 20 and 22. Dependabot checks npm dependencies weekly. Pushing a version tag such as `v1.0.0` creates a GitHub Release with generated notes after verification passes.
+
+Before release: review `git diff`, run verification/audit, test create/import/balances and a testnet transfer manually, confirm no secret files are staged, and validate configured token addresses against authoritative sources. See [CHANGELOG.md](CHANGELOG.md) for version notes.
 
 ## Known limitations
 
