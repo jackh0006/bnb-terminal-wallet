@@ -1,0 +1,35 @@
+{
+  "name": "bnb-terminal-wallet",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local non-custodial BNB Smart Chain terminal wallet",
+  "license": "MIT",
+  "author": "Jack Hudson <jackh109867@gmail.com>",
+  "homepage": "https://github.com/jackh0006/bnb-terminal-wallet#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackh0006/bnb-terminal-wallet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jackh0006/bnb-terminal-wallet/issues"
+  },
+  "keywords": ["bnb", "bsc", "wallet", "bep20", "terminal", "non-custodial"],
+  "files": ["src", "tokens.json", "README.md", "LICENSE", "SECURITY.md"],
+  "bin": { "bnb-wallet": "./src/index.js" },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "npm start",
+    "check": "node --check src/index.js",
+    "test": "node --test",
+    "audit": "npm audit --omit=dev --audit-level=high",
+    "verify": "npm run check && npm test"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "ethers": "^6.15.0",
+    "inquirer": "^12.5.0",
+    "qrcode-terminal": "^0.12.0"
+  }
+}

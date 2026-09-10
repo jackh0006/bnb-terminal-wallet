@@ -1,0 +1,17 @@
+node_modules/
+.bnb-terminal-wallet.json
+npm-debug.log*
+.env
+.env.*
+!.env.example
+.bnb-terminal-wallet-vault.json
+*.wallet
+playwright-report/
+test-results/
+dist/
+coverage/
+*.key
+*.pem
+*.keystore
+keystore*.json
+wallet*.json

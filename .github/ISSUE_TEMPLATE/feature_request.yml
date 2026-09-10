@@ -1,0 +1,18 @@
+name: Feature request
+description: Suggest a safe, scoped improvement
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not include private keys, recovery phrases, passwords, API credentials, or sensitive transaction data."
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: security
+    attributes:
+      label: Security and privacy impact
+      description: "Describe any new data exposure, signing, RPC, or dependency implications."
