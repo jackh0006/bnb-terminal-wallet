@@ -18,14 +18,24 @@ test('BEP-20 transfer data encodes the intended recipient and exact amount', () 
   const erc20 = new Interface(['function transfer(address,uint256) returns (bool)']);
   const recipient = '0x92292be85CC55f9C3Ac36212487daBbD4b63fd14';
   const amount = parseUnits('0.02', 18);
-  const decoded = erc20.decodeFunctionData('transfer', erc20.encodeFunctionData('transfer', [recipient, amount]));
+  const decoded = erc20.decodeFunctionData(
+    'transfer',
+    erc20.encodeFunctionData('transfer', [recipient, amount]),
+  );
   assert.equal(decoded[0], recipient);
   assert.equal(decoded[1], amount);
 });
 
 test('locally signed transaction is bound to BNB Smart Chain ID 56', async () => {
   const account = new Wallet('0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80');
-  const signed = await account.signTransaction({ chainId: 56, nonce: 0, to: account.address, value: 0, gasLimit: 21_000, gasPrice: 1_000_000_000 });
+  const signed = await account.signTransaction({
+    chainId: 56,
+    nonce: 0,
+    to: account.address,
+    value: 0,
+    gasLimit: 21_000,
+    gasPrice: 1_000_000_000,
+  });
   assert.equal(Transaction.from(signed).chainId, 56n);
 });
 

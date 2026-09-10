@@ -1,0 +1,6 @@
+node_modules/
+coverage/
+dist/
+package-lock.json
+.bnb-terminal-wallet.json
+.bnb-terminal-wallet-vault.json

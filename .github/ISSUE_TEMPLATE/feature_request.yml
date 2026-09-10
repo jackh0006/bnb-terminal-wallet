@@ -4,7 +4,7 @@ labels: [enhancement]
 body:
   - type: markdown
     attributes:
-      value: "Do not include private keys, recovery phrases, passwords, API credentials, or sensitive transaction data."
+      value: 'Do not include private keys, recovery phrases, passwords, API credentials, or sensitive transaction data.'
   - type: textarea
     id: problem
     attributes:
@@ -15,4 +15,4 @@ body:
     id: security
     attributes:
       label: Security and privacy impact
-      description: "Describe any new data exposure, signing, RPC, or dependency implications."
+      description: 'Describe any new data exposure, signing, RPC, or dependency implications.'

@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## [1.0.1] — Repository quality and governance
+
+- Added ESLint, Prettier, Husky pre-commit checks, and lint-staged safeguards.
+- Added CodeQL, OpenSSF Scorecard, GitHub Actions dependency updates, and private-security reporting links.
+- Added architecture, governance, maintainer, and support documentation.
+- Improved installation and update documentation.
+
 ## [1.0.0] — Initial public release
 
 - Non-custodial BNB Smart Chain terminal wallet with local ethers v6 signing.

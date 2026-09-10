@@ -4,12 +4,12 @@ labels: [bug]
 body:
   - type: markdown
     attributes:
-      value: "Never include a recovery phrase, private key, password, keystore, API credential, or sensitive address context. Use SECURITY.md for vulnerabilities."
+      value: 'Never include a recovery phrase, private key, password, keystore, API credential, or sensitive address context. Use SECURITY.md for vulnerabilities.'
   - type: input
     id: version
     attributes:
       label: Version and platform
-      placeholder: "1.0.0, Node 22, Termux"
+      placeholder: '1.0.0, Node 22, Termux'
     validations:
       required: true
   - type: textarea

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/jackh0006/bnb-terminal-wallet/security/advisories/new
+    about: Report vulnerabilities privately. Never include secrets in an issue.
+  - name: Usage and safety guide
+    url: https://github.com/jackh0006/bnb-terminal-wallet/blob/main/README.md#safe-operation
+    about: Read the wallet safety guidance before opening a support request.
