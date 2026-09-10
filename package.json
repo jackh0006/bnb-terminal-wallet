@@ -48,7 +48,7 @@
     "node": ">=20"
   },
   "dependencies": {
-    "chalk": "^5.4.1",
+    "chalk": "^6.0.0",
     "ethers": "^6.15.0",
     "inquirer": "^12.5.0",
     "qrcode-terminal": "^0.12.0"
