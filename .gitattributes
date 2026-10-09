@@ -1,0 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Release archives exclude local secrets and build noise.
+.env export-ignore
+.bnb-terminal-wallet.json export-ignore
+.bnb-terminal-wallet-vault.json export-ignore
+node_modules/ export-ignore

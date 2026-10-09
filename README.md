@@ -71,13 +71,33 @@ npm run verify
 npm run audit
 ```
 
-CI runs syntax checking and unit tests on Node 20 and 22. Dependabot checks npm dependencies weekly. Pushing a version tag such as `v1.0.0` creates a GitHub Release with generated notes after verification passes.
+CI runs syntax checking and unit tests on Node 20 and 22. Dependabot checks npm dependencies weekly. Pushing a version tag such as `v1.0.3` creates a GitHub Release with generated notes after verification passes. Each release ships canonical assets:
+
+| File                                        | What                                |
+| ------------------------------------------- | ----------------------------------- |
+| `bnb-terminal-wallet-<ver>-linux-amd64.zip` | Full source (no `.git`, no secrets) |
+| `bnb-terminal-wallet-<ver>-SHA256SUMS.txt`  | Hashes — verify before use          |
 
 Before release: review `git diff`, run verification/audit, test create/import/balances and a testnet transfer manually, confirm no secret files are staged, and validate configured token addresses against authoritative sources. See [CHANGELOG.md](CHANGELOG.md) for version notes.
 
 ## Known limitations
 
 This is a Node.js CLI, not the requested React/Vite graphical dashboard; migration should be a separately reviewed change so existing terminal workflows remain intact. Transaction history covers normal transactions only and needs a BscScan API key. No hardware signer, automated Playwright flow, or professional audit is included. Public RPC providers can link requests to IP addresses and public account activity.
+
+## 🔑 Why this wallet — scoreboard
+
+Same task, reproducible. Legend: ✅ yes · ❌ no · 🔶 partial.
+
+| Need (your words)                  |  BNB Terminal Wallet   | Exchange account | Browser extension | How we prove it                                   |
+| ---------------------------------- | :--------------------: | :--------------: | :---------------: | ------------------------------------------------- |
+| 🔑 Keys never leave your machine   | ✅ local `ethers` sign |   ❌ custodial   |    🔶 sandbox     | `src/index.js` — RPC gets reads + signed txs only |
+| 👁 No account, no email, no KYC     |           ✅           |        ❌        |        ✅         | No signup code exists                             |
+| 🧾 BEP-20 + testnet + simulation   |           ✅           |        🔶        |        ✅         | `tokens.json` allowlist + dry-run review          |
+| 📦 Encrypted vault, hidden prompts |      ✅ V3 + mask      |        —         |        ✅         | `test/standards.test.js` round-trip               |
+| 🧪 No telemetry / no ads           |           ✅           |        ❌        |        🔶         | No analytics deps; `PRIVACY.md`                   |
+| 🔍 Independent audit               |  🔶 open, needs audit  |        ✅        |        ✅         | `SECURITY.md`                                     |
+
+What only it does: terminal-native BNB workflow (QR receive, gas-speed choice, no-rebroadcast safety) with zero backend of its own. What you need: Node 20+, your own RPC URL, and a paper backup before funding. No hype — see `SECURITY.md` before real funds.
 
 See [SECURITY.md](SECURITY.md) for the threat model and disclosure process, and [CONTRIBUTING.md](CONTRIBUTING.md) to contribute.
 
