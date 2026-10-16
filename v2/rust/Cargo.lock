@@ -112,6 +112,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "bnb-wallet-hardening"
+version = "0.1.0"
+dependencies = [
+ "libc",
+ "thiserror",
+]
+
+[[package]]
 name = "bnb-wallet-net"
 version = "0.1.0"
 dependencies = [
