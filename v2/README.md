@@ -14,4 +14,12 @@ flutter build apk --flavor online --debug
 
 `cold` has no `INTERNET` permission. `online` declares it for the future network crate. No release APK may be published until the Rust core, encrypted vault, signing tests, manifest test, reproducible-build procedure, and independent audit requirements are met.
 
+## Network modes (planned, not implemented)
+
+- **Offline (Cold):** no network code is compiled in. Nothing leaves the device.
+- **Private (Online default):** all RPC traffic through embedded Tor; HTTPS only; fixed minimal headers; no device data; two-provider quorum. Hides your IP from RPC nodes and queries from the ISP.
+- **Direct (Online opt-in, per session, red warning):** same minimal HTTPS + quorum rules without Tor, for places where Tor is blocked or too slow. Your IP is then visible to RPC nodes.
+
+Honest limits: the blockchain itself is public; RPC nodes see the addresses you query; without Tor the ISP sees the server you contact; malware on the device defeats any wallet. Tor availability and bridge status will be re-checked against current Arti docs during implementation.
+
 The existing Node.js terminal wallet remains the only implemented wallet in this repository and is unaudited; use only low-value testnet funds.
