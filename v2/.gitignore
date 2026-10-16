@@ -35,6 +35,9 @@ migrate_working_dir/
 /android/.kotlin/
 /linux/flutter/ephemeral/
 /rust/target/
+/rust/fuzz/target/
+/rust/fuzz/corpus/
+/rust/fuzz/artifacts/
 /coverage/
 
 # Symbolication related
