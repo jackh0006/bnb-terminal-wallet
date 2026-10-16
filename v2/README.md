@@ -12,7 +12,7 @@ flutter build apk --flavor cold --debug
 flutter build apk --flavor online --debug
 ```
 
-`cold` has no `INTERNET` permission. `online` declares it for the future network crate. No release APK may be published until the Rust core, encrypted vault, signing tests, manifest test, reproducible-build procedure, and independent audit requirements are met.
+`cold` has no `INTERNET` permission — proven on the 2026-10-16 release build: `aapt dump permissions` lists no `INTERNET` (45.2 MB `app-cold-release.apk`). `online` declares it for the future network crate. The GUI is still development-only with no wallet function: no release may be published until the Rust core, encrypted vault, signing tests, manifest test, reproducible-build procedure, and independent audit requirements are met.
 
 ## Network modes (planned, not implemented)
 

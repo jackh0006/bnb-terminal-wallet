@@ -112,6 +112,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "bnb-wallet-ffi"
+version = "0.1.0"
+dependencies = [
+ "bnb-wallet-vault",
+ "thiserror",
+]
+
+[[package]]
 name = "bnb-wallet-hardening"
 version = "0.1.0"
 dependencies = [
