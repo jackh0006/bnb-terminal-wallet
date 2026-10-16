@@ -84,20 +84,21 @@ Before release: review `git diff`, run verification/audit, test create/import/ba
 
 This is a Node.js CLI, not the requested React/Vite graphical dashboard; migration should be a separately reviewed change so existing terminal workflows remain intact. Transaction history covers normal transactions only and needs a BscScan API key. No hardware signer, automated Playwright flow, or professional audit is included. Public RPC providers can link requests to IP addresses and public account activity.
 
-## 🔑 Why this wallet — scoreboard
+## How it compares (by design, not by brand)
 
-Same task, reproducible. Legend: ✅ yes · ❌ no · 🔶 partial.
+Marks: ✅ proven by test/procedure · 🚧 planned/in progress · ❌ not available · Unknown = cannot verify. Last checked 2026-10-16. Sources inline.
 
-| Need (your words)                  |       BNB Wallet       | Exchange account | Browser extension | How we prove it                                   |
-| ---------------------------------- | :--------------------: | :--------------: | :---------------: | ------------------------------------------------- |
-| 🔑 Keys never leave your machine   | ✅ local `ethers` sign |   ❌ custodial   |    🔶 sandbox     | `src/index.js` — RPC gets reads + signed txs only |
-| 👁 No account, no email, no KYC     |           ✅           |        ❌        |        ✅         | No signup code exists                             |
-| 🧾 BEP-20 + testnet + simulation   |           ✅           |        🔶        |        ✅         | `tokens.json` allowlist + dry-run review          |
-| 📦 Encrypted vault, hidden prompts |      ✅ V3 + mask      |        —         |        ✅         | `test/standards.test.js` round-trip               |
-| 🧪 No telemetry / no ads           |           ✅           |        ❌        |        🔶         | No analytics deps; `PRIVACY.md`                   |
-| 🔍 Independent audit               |  🔶 open, needs audit  |        ✅        |        ✅         | `SECURITY.md`                                     |
+| Question                                 | This wallet (v1 terminal)               | Hardware wallet                    | Browser-extension wallet         | Exchange / custodial app | Evidence                                                                               |
+| ---------------------------------------- | --------------------------------------- | ---------------------------------- | -------------------------------- | ------------------------ | -------------------------------------------------------------------------------------- |
+| Who holds your keys?                     | You (local `ethers` sign) ✅            | You ✅                             | You ✅                           | The company ❌           | `src/index.js` RPC gets reads + signed txs only; exchange custody is by definition     |
+| Keys on a separate purpose-built device? | ❌ (🚧 Cold offline phone is next best) | ✅ varies by maker — Unknown here  | ❌ usually not                   | n/a                      | No hardware signer in this repo; maker claims vary                                     |
+| No account, email or ID needed?          | ✅                                      | ✅                                 | ✅                               | ❌ usually needs ID      | No signup code in this repo; others per their docs — Unknown without per-product check |
+| All code public, rebuildable by you?     | ✅ source public; repro-builds 🚧       | Varies by maker — Unknown          | Varies — Unknown                 | ❌                       | This repo is MIT; others vary                                                          |
+| Independent audit published?             | ❌ not yet                              | Varies by maker — Unknown          | Varies — Unknown                 | Varies — Unknown         | `SECURITY.md`; no audit report linked here                                             |
+| Hides your IP from RPC servers?          | 🚧 Tor mode planned; today RPC sees IP  | Depends on companion app — Unknown | Usually not by default — Unknown | n/a                      | `PRIVACY.md`; public RPCs link IP to queries                                           |
+| Cost                                     | Free                                    | You buy a device                   | Free                             | Free + fees              | General knowledge; check maker price                                                   |
 
-What only it does: terminal-native BNB workflow (QR receive, gas-speed choice, no-rebroadcast safety) with zero backend of its own. What you need: Node 20+, your own RPC URL, and a paper backup before funding. No hype — see `SECURITY.md` before real funds.
+Honest takeaway: for large amounts, a hardware wallet is the stronger choice. This wallet aims to be transparent, offline-first and open source, and works best as an offline signer next to a hardware wallet or spare phone. See `SECURITY.md` before real funds.
 
 See [SECURITY.md](SECURITY.md) for the threat model and disclosure process, and [CONTRIBUTING.md](CONTRIBUTING.md) to contribute.
 
