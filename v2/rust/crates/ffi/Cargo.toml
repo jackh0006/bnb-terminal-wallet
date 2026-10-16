@@ -7,6 +7,9 @@ license.workspace = true
 authors.workspace = true
 publish = false
 
+[lib]
+crate-type = ["cdylib", "rlib"]
+
 [dependencies]
 bnb-wallet-vault = { path = "../vault" }
 thiserror = "2.0.21"
