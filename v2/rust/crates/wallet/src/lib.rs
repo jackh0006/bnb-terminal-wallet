@@ -3,8 +3,10 @@
 //! Pure wallet helpers for BNB Wallet v2: strict amount parsing and
 //! EIP-55 address checks. No network, no secrets, no floats.
 //!
-//! Secret handling (mnemonics, keys, signing) belongs in a later,
-//! audited signing module proven against `test/golden/*.json`.
+//! Secret handling (mnemonics, keys, signing) lives in [`sign`], proven
+//! against `test/golden/*.json`.
+
+pub mod sign;
 
 use sha3::{Digest, Keccak256};
 use thiserror::Error;

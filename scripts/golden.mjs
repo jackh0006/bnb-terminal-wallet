@@ -43,7 +43,17 @@ for (let i = 0; i < 25; i++) {
 }
 let n = 0;
 for (const c of cases.slice(0, 50)) {
-  const base = { chainId: c.chainId, nonce: c.nonce, gasLimit: 21_000, gasPrice: BigInt(c.gasPrice) };
+  // Explicit legacy envelope: v2 standardizes on type-0 (BSC-supported,
+  // smallest, no access lists). Left to itself, ethers v6 defaults to a
+  // type-1 access-list envelope for identical fields; v2 intentionally
+  // does not replicate that accident. See handoff notes.
+  const base = {
+    type: 0,
+    chainId: c.chainId,
+    nonce: c.nonce,
+    gasLimit: 21_000,
+    gasPrice: BigInt(c.gasPrice),
+  };
   const req =
     c.kind === 'bnb'
       ? { ...base, to: RECIPIENT, value: BigInt(c.value) }
