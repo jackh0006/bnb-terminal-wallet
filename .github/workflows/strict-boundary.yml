@@ -1,0 +1,40 @@
+# SPDX-License-Identifier: MIT
+name: Strict boundary
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  strict:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # 1. No live secrets in tracked files (tests use public Hardhat vectors only).
+      - name: Secret scan
+        run: |
+          grep -rn --exclude-dir=node_modules --exclude-dir=.git -E 'BEGIN (RSA |OPENSSH |EC )?PRIVATE KEY' . && { echo "private key material forbidden"; exit 1; }
+          grep -rn --exclude-dir=node_modules --exclude-dir=.git --exclude=package-lock.json -iE 'ghp_[A-Za-z0-9]{20,}|gho_[A-Za-z0-9]{20,}|sk-live-[A-Za-z0-9]+' . && { echo "token forbidden"; exit 1; }
+          echo "secrets: none found OK"
+      # 2. Secrets are shown only behind explicit user consent + offline warnings.
+      - name: Key-handling boundary
+        run: |
+          grep -q "mask: '\*'" src/index.js || { echo "hidden prompts required"; exit 1; }
+          grep -q 'I have stored the phrase securely offline' src/index.js || { echo "reveal consent gate required"; exit 1; }
+          grep -q 'Anyone seeing it can take the funds' src/index.js || { echo "reveal warning required"; exit 1; }
+          echo "key boundary: OK"
+      # 3. No hype or profit promises.
+      - name: No unverifiable claims
+        run: |
+          grep -rin 'unhackable\|CIA-grade\|zero bugs\|guaranteed profit\|risk-free\|100% secure' README.md SECURITY.md PRIVACY.md AGENTS.md src/ docs/ 2>/dev/null | grep -vi 'never\|no \|not ' && { echo "hype claim forbidden"; exit 1; }
+          echo "claims: honest OK"
+      # 4. Version lockstep: package.json == package-lock.
+      - name: Version lockstep
+        run: |
+          test "$(node -p "require('./package.json').version")" = "$(node -p "require('./package-lock.json').version")" || { echo "package.json/package-lock drift"; exit 1; }
+          echo "versions: lockstep OK"

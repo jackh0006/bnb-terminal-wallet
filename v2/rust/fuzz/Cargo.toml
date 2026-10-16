@@ -1,0 +1,33 @@
+[package]
+name = "bnb-wallet-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2024"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+
+[dependencies.bnb-wallet-vault]
+path = "../crates/vault"
+
+[dependencies.bnb-wallet-wallet]
+path = "../crates/wallet"
+
+[[bin]]
+name = "vault_open"
+path = "fuzz_targets/vault_open.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "wallet_parse"
+path = "fuzz_targets/wallet_parse.rs"
+test = false
+doc = false
+bench = false
+
+[workspace]

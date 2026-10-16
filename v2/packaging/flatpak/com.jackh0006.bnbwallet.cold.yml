@@ -1,0 +1,21 @@
+app-id: com.jackh0006.bnbwallet.cold
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+command: bnb-wallet
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  # No --share=network. Cold build must never touch the network.
+  - --filesystem=xdg-data/bnb-wallet:rw
+modules:
+  - name: bnb-wallet
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 bundle/bnb_wallet_v2 /app/bin/bnb-wallet
+      - install -Dm644 com.jackh0006.bnbwallet.cold.desktop /app/share/applications/com.jackh0006.bnbwallet.cold.desktop
+    sources:
+      - type: dir
+        path: ../../build/linux/x64/release/bundle

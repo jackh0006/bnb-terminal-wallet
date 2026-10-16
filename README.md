@@ -1,8 +1,8 @@
-# BNB Terminal Wallet
+# BNB Wallet
 
 [![Node 20+](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js)](https://nodejs.org/) [![ethers v6](https://img.shields.io/badge/ethers-v6-2535a0)](https://docs.ethers.org/v6/) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-A local, non-custodial terminal wallet for BNB Smart Chain. It creates or imports standard EVM wallets, displays BNB and configured BEP-20 assets, and signs BNB/BEP-20 transfers locally.
+A local, non-custodial wallet for BNB Smart Chain. The current v1 interface runs in a terminal; the Android and Linux graphical application is being built as v2.
 
 > **Security notice:** this is unaudited open-source software. Do not use it for large sums. A professional independent security audit is recommended before relying on it with real funds or any production/custodial workflow.
 
@@ -71,7 +71,12 @@ npm run verify
 npm run audit
 ```
 
-CI runs syntax checking and unit tests on Node 20 and 22. Dependabot checks npm dependencies weekly. Pushing a version tag such as `v1.0.0` creates a GitHub Release with generated notes after verification passes.
+CI runs syntax checking and unit tests on Node 20 and 22. The next planned patch release is `v1.0.3`; its version is checked against the tag before a GitHub Release is created. Dependabot checks npm dependencies weekly. Each release ships canonical assets:
+
+| File                              | What                                |
+| --------------------------------- | ----------------------------------- |
+| `bnb-wallet-<ver>-source.zip`     | Full source (no `.git`, no secrets) |
+| `bnb-wallet-<ver>-SHA256SUMS.txt` | Hashes — verify before use          |
 
 Before release: review `git diff`, run verification/audit, test create/import/balances and a testnet transfer manually, confirm no secret files are staged, and validate configured token addresses against authoritative sources. See [CHANGELOG.md](CHANGELOG.md) for version notes.
 
@@ -79,11 +84,27 @@ Before release: review `git diff`, run verification/audit, test create/import/ba
 
 This is a Node.js CLI, not the requested React/Vite graphical dashboard; migration should be a separately reviewed change so existing terminal workflows remain intact. Transaction history covers normal transactions only and needs a BscScan API key. No hardware signer, automated Playwright flow, or professional audit is included. Public RPC providers can link requests to IP addresses and public account activity.
 
+## How it compares (by design, not by brand)
+
+Marks: ✅ proven by test/procedure · 🚧 planned/in progress · ❌ not available · Unknown = cannot verify. Last checked 2026-10-16. Sources inline.
+
+| Question                                 | This wallet (v1 terminal)               | Hardware wallet                    | Browser-extension wallet         | Exchange / custodial app | Evidence                                                                               |
+| ---------------------------------------- | --------------------------------------- | ---------------------------------- | -------------------------------- | ------------------------ | -------------------------------------------------------------------------------------- |
+| Who holds your keys?                     | You (local `ethers` sign) ✅            | You ✅                             | You ✅                           | The company ❌           | `src/index.js` RPC gets reads + signed txs only; exchange custody is by definition     |
+| Keys on a separate purpose-built device? | ❌ (🚧 Cold offline phone is next best) | ✅ varies by maker — Unknown here  | ❌ usually not                   | n/a                      | No hardware signer in this repo; maker claims vary                                     |
+| No account, email or ID needed?          | ✅                                      | ✅                                 | ✅                               | ❌ usually needs ID      | No signup code in this repo; others per their docs — Unknown without per-product check |
+| All code public, rebuildable by you?     | ✅ source public; repro-builds 🚧       | Varies by maker — Unknown          | Varies — Unknown                 | ❌                       | This repo is MIT; others vary                                                          |
+| Independent audit published?             | ❌ not yet                              | Varies by maker — Unknown          | Varies — Unknown                 | Varies — Unknown         | `SECURITY.md`; no audit report linked here                                             |
+| Hides your IP from RPC servers?          | 🚧 Tor mode planned; today RPC sees IP  | Depends on companion app — Unknown | Usually not by default — Unknown | n/a                      | `PRIVACY.md`; public RPCs link IP to queries                                           |
+| Cost                                     | Free                                    | You buy a device                   | Free                             | Free + fees              | General knowledge; check maker price                                                   |
+
+Honest takeaway: for large amounts, a hardware wallet is the stronger choice. This wallet aims to be transparent, offline-first and open source, and works best as an offline signer next to a hardware wallet or spare phone. See `SECURITY.md` before real funds.
+
 See [SECURITY.md](SECURITY.md) for the threat model and disclosure process, and [CONTRIBUTING.md](CONTRIBUTING.md) to contribute.
 
 ## Credits
 
-Author: Jack Hudson
+Created and maintained by: jackh0006
 
 GitHub: https://github.com/jackh0006
 

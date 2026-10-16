@@ -1,0 +1,9 @@
+[workspace]
+members = ["crates/vault", "crates/wallet", "crates/net", "crates/hardening", "crates/ffi"]
+resolver = "2"
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.85"
+license = "MIT"
+authors = ["jackh0006 <jackh109867@gmail.com>"]

@@ -1,6 +1,17 @@
 node_modules/
+v2/.dart_tool/
+v2/build/
+v2/android/.gradle/
+v2/android/.kotlin/
+v2/linux/flutter/ephemeral/
+v2/rust/target/
+v2/rust/fuzz/target/
+v2/rust/fuzz/corpus/
+v2/rust/fuzz/artifacts/
 coverage/
 dist/
 package-lock.json
 .bnb-terminal-wallet.json
 .bnb-terminal-wallet-vault.json
+
+.gitattributes

@@ -1,0 +1,21 @@
+app-id: com.jackh0006.bnbwallet.online
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+command: bnb-wallet
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  - --share=network
+  - --filesystem=xdg-data/bnb-wallet:rw
+modules:
+  - name: bnb-wallet
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 bundle/bnb_wallet_v2 /app/bin/bnb-wallet
+      - install -Dm644 com.jackh0006.bnbwallet.online.desktop /app/share/applications/com.jackh0006.bnbwallet.online.desktop
+    sources:
+      - type: dir
+        path: ../../build/linux/x64/release/bundle
