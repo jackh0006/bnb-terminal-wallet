@@ -28,15 +28,15 @@ jobs:
         run: |
           VER="${GITHUB_REF_NAME#v}"
           test "$(node -p "require('./package.json').version")" = "$VER" || { echo "tag/version mismatch"; exit 1; }
-          git archive --format=zip --prefix="bnb-terminal-wallet-$VER/" HEAD -o "bnb-terminal-wallet-$VER-linux-amd64.zip"
-          sha256sum "bnb-terminal-wallet-$VER-linux-amd64.zip" > "bnb-terminal-wallet-$VER-SHA256SUMS.txt"
+          git archive --format=zip --prefix="bnb-wallet-$VER/" HEAD -o "bnb-wallet-$VER-source.zip"
+          sha256sum "bnb-wallet-$VER-source.zip" > "bnb-wallet-$VER-SHA256SUMS.txt"
       - name: Create release notes
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           VER="${GITHUB_REF_NAME#v}"
           if gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
-            gh release upload "${GITHUB_REF_NAME}" --clobber "bnb-terminal-wallet-$VER-linux-amd64.zip" "bnb-terminal-wallet-$VER-SHA256SUMS.txt"
+            gh release upload "${GITHUB_REF_NAME}" --clobber "bnb-wallet-$VER-source.zip" "bnb-wallet-$VER-SHA256SUMS.txt"
           else
-            gh release create "${GITHUB_REF_NAME}" --title "BNB Terminal Wallet ${GITHUB_REF_NAME}" --generate-notes "bnb-terminal-wallet-$VER-linux-amd64.zip" "bnb-terminal-wallet-$VER-SHA256SUMS.txt"
+            gh release create "${GITHUB_REF_NAME}" --title "BNB Wallet ${GITHUB_REF_NAME}" --generate-notes "bnb-wallet-$VER-source.zip" "bnb-wallet-$VER-SHA256SUMS.txt"
           fi

@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import fs from 'node:fs/promises';
-import { constants as FS } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
@@ -17,7 +16,9 @@ import {
   formatUnits,
   parseUnits,
   getAddress,
+  Transaction,
 } from 'ethers';
+import { readLocalJson, writePrivateJson } from './storage.js';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
@@ -177,9 +178,7 @@ async function ask(q) {
 }
 async function load() {
   try {
-    const stat = await fs.lstat(STORE);
-    if (stat.isSymbolicLink()) return;
-    const saved = JSON.parse(await fs.readFile(STORE, 'utf8'));
+    const saved = await readLocalJson(STORE);
     if (!saved || typeof saved !== 'object') return;
     config.network = saved.network === 'testnet' ? 'testnet' : 'mainnet';
     applyNetwork(config.network);
@@ -213,7 +212,7 @@ async function load() {
   // The checked-in token list is deliberately address-based, never symbol-based.
   // A malformed local edit is ignored rather than risking an unsafe asset entry.
   try {
-    const listed = JSON.parse(await fs.readFile(TOKEN_LIST, 'utf8'));
+    const listed = await readLocalJson(TOKEN_LIST);
     const networkTokens = listed?.[config.network];
     if (Array.isArray(networkTokens))
       builtInTokens = networkTokens
@@ -243,23 +242,10 @@ function applyNetwork(network) {
   DEFAULT_RPC = selected.rpc;
 }
 async function save() {
-  // O_NOFOLLOW prevents a local symlink from redirecting this settings write.
-  const handle = await fs.open(STORE, FS.O_WRONLY | FS.O_CREAT | FS.O_TRUNC | FS.O_NOFOLLOW, 0o600);
-  try {
-    await handle.chmod(0o600);
-    await handle.writeFile(JSON.stringify(config, null, 2));
-  } finally {
-    await handle.close();
-  }
+  await writePrivateJson(STORE, config);
 }
 async function saveVault(vault) {
-  const handle = await fs.open(VAULT, FS.O_WRONLY | FS.O_CREAT | FS.O_TRUNC | FS.O_NOFOLLOW, 0o600);
-  try {
-    await handle.chmod(0o600);
-    await handle.writeFile(JSON.stringify(vault, null, 2));
-  } finally {
-    await handle.close();
-  }
+  await writePrivateJson(VAULT, vault);
 }
 async function within(promise, ms, label) {
   let timer;
@@ -475,7 +461,7 @@ async function importWallet() {
   if (kind === 'vault') {
     let vault;
     try {
-      vault = JSON.parse(await fs.readFile(VAULT, 'utf8'));
+      vault = await readLocalJson(VAULT);
     } catch {
       throw new Error('No readable encrypted local vault was found.');
     }
@@ -581,7 +567,7 @@ async function offerEncryptedSave() {
   const keystore = await wallet.encrypt(p.one);
   let vault = { version: 1, accounts: [] };
   try {
-    vault = JSON.parse(await fs.readFile(VAULT, 'utf8'));
+    vault = await readLocalJson(VAULT);
   } catch {}
   if (!Array.isArray(vault.accounts)) vault.accounts = [];
   vault.accounts = vault.accounts.filter((x) => x?.address?.toLowerCase() !== wallet.address.toLowerCase());
@@ -824,19 +810,27 @@ async function send() {
     { type: 'confirm', name: 'yes', message: 'Broadcast this irreversible transaction?', default: false },
   ]);
   if (!yes.yes) return console.log(c.dim('Cancelled.'));
+  // Fix the nonce before signing so the locally calculated hash identifies the
+  // exact transaction even if the RPC connection drops during broadcast.
+  tx.nonce = await provider.getTransactionCount(wallet.address, 'pending');
+  const rawTransaction = await wallet.signTransaction(tx);
+  const localHash = Transaction.from(rawTransaction).hash;
+  if (!localHash) throw new Error('Could not calculate the signed transaction hash locally.');
   let sent;
   try {
-    live('Signing locally and broadcasting the reviewed transaction…');
-    sent = await wallet.sendTransaction(tx);
+    live(`Signed locally: ${localHash}. Broadcasting the reviewed transaction…`);
+    sent = await provider.broadcastTransaction(rawTransaction);
   } catch (e) {
     if (/timeout|network|socket/i.test(e.message || ''))
       console.log(
         c.yellow(
-          '\nBroadcast result is unknown. Do NOT send again yet: inspect your address on BscScan and check the next transaction nonce.',
+          `\nBroadcast result is unknown. Do NOT send again. Check ${localHash} on BscScan and inspect the next transaction nonce.`,
         ),
       );
     throw e;
   }
+  if (sent.hash !== localHash)
+    throw new Error('RPC returned a transaction hash different from the locally signed transaction.');
   console.log(c.green(`\nBroadcast: ${sent.hash}\n${EXPLORER}/tx/${sent.hash}`));
   console.log(c.dim('Waiting for one confirmation…'));
   live('Broadcast accepted; waiting for the first block confirmation…');

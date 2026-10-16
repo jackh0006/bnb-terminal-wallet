@@ -1,0 +1,4 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- The online flavor will use this only after the Rust network boundary exists. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>

@@ -1,8 +1,8 @@
-# BNB Terminal Wallet
+# BNB Wallet
 
 [![Node 20+](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js)](https://nodejs.org/) [![ethers v6](https://img.shields.io/badge/ethers-v6-2535a0)](https://docs.ethers.org/v6/) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-A local, non-custodial terminal wallet for BNB Smart Chain. It creates or imports standard EVM wallets, displays BNB and configured BEP-20 assets, and signs BNB/BEP-20 transfers locally.
+A local, non-custodial wallet for BNB Smart Chain. The current v1 interface runs in a terminal; the Android and Linux graphical application is being built as v2.
 
 > **Security notice:** this is unaudited open-source software. Do not use it for large sums. A professional independent security audit is recommended before relying on it with real funds or any production/custodial workflow.
 
@@ -71,12 +71,12 @@ npm run verify
 npm run audit
 ```
 
-CI runs syntax checking and unit tests on Node 20 and 22. Dependabot checks npm dependencies weekly. Pushing a version tag such as `v1.0.3` creates a GitHub Release with generated notes after verification passes. Each release ships canonical assets:
+CI runs syntax checking and unit tests on Node 20 and 22. The next planned patch release is `v1.0.3`; its version is checked against the tag before a GitHub Release is created. Dependabot checks npm dependencies weekly. Each release ships canonical assets:
 
-| File                                        | What                                |
-| ------------------------------------------- | ----------------------------------- |
-| `bnb-terminal-wallet-<ver>-linux-amd64.zip` | Full source (no `.git`, no secrets) |
-| `bnb-terminal-wallet-<ver>-SHA256SUMS.txt`  | Hashes — verify before use          |
+| File                              | What                                |
+| --------------------------------- | ----------------------------------- |
+| `bnb-wallet-<ver>-source.zip`     | Full source (no `.git`, no secrets) |
+| `bnb-wallet-<ver>-SHA256SUMS.txt` | Hashes — verify before use          |
 
 Before release: review `git diff`, run verification/audit, test create/import/balances and a testnet transfer manually, confirm no secret files are staged, and validate configured token addresses against authoritative sources. See [CHANGELOG.md](CHANGELOG.md) for version notes.
 
@@ -88,7 +88,7 @@ This is a Node.js CLI, not the requested React/Vite graphical dashboard; migrati
 
 Same task, reproducible. Legend: ✅ yes · ❌ no · 🔶 partial.
 
-| Need (your words)                  |  BNB Terminal Wallet   | Exchange account | Browser extension | How we prove it                                   |
+| Need (your words)                  |       BNB Wallet       | Exchange account | Browser extension | How we prove it                                   |
 | ---------------------------------- | :--------------------: | :--------------: | :---------------: | ------------------------------------------------- |
 | 🔑 Keys never leave your machine   | ✅ local `ethers` sign |   ❌ custodial   |    🔶 sandbox     | `src/index.js` — RPC gets reads + signed txs only |
 | 👁 No account, no email, no KYC     |           ✅           |        ❌        |        ✅         | No signup code exists                             |
@@ -103,7 +103,7 @@ See [SECURITY.md](SECURITY.md) for the threat model and disclosure process, and 
 
 ## Credits
 
-Author: Jack Hudson
+Created and maintained by: jackh0006
 
 GitHub: https://github.com/jackh0006
 

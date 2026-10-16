@@ -1,11 +1,11 @@
 {
-  "name": "bnb-terminal-wallet",
-  "version": "1.0.1",
+  "name": "bnb-wallet",
+  "version": "1.0.3",
   "private": true,
   "type": "module",
-  "description": "Local non-custodial BNB Smart Chain terminal wallet",
+  "description": "Local non-custodial BNB Smart Chain wallet",
   "license": "MIT",
-  "author": "Jack Hudson <jackh109867@gmail.com>",
+  "author": "jackh0006 <jackh109867@gmail.com>",
   "homepage": "https://github.com/jackh0006/bnb-terminal-wallet#readme",
   "repository": {
     "type": "git",

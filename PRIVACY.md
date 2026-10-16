@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-# BNB Terminal Wallet — Privacy Policy
+# BNB Wallet — Privacy Policy
 
 Keys stay on your machine. This document says exactly what leaves it.
 

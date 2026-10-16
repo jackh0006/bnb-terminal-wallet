@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-# AGENTS.md — AI contributor guide for bnb-terminal-wallet
+# AGENTS.md — Contributor guide for BNB Wallet
 
 Real money is at stake. Be conservative, be honest, never improvise.
 

@@ -1,4 +1,10 @@
 node_modules/
+v2/.dart_tool/
+v2/build/
+v2/android/.gradle/
+v2/android/.kotlin/
+v2/linux/flutter/ephemeral/
+v2/rust/target/
 coverage/
 dist/
 package-lock.json
